@@ -1,14 +1,22 @@
 import React from 'react';
 import { render } from 'react-dom';
 import App from './App';
-import { ApolloClient, InMemoryCache, from, HttpLink, ApolloProvider } from '@apollo/client'
+import { ApolloClient, InMemoryCache, HttpLink, ApolloProvider } from '@apollo/client'
+import { WebSocketLink } from '@apollo/client/link/ws'
 
-const httpLink = new HttpLink({
-  uri: 'http://localhost:4000', // requests to this endpoint
-});
+const link = new WebSocketLink({
+  uri: 'ws://localhost:4000',
+  options: {
+    reconnect:true
+  }
+})
+
+// const httpLink = new HttpLink({
+//   uri: 'http://localhost:4000', // requests to this endpoint
+// });
 
 const client = new ApolloClient({
-  link:  httpLink,
+  link,
   cache: new InMemoryCache()
 });
 
